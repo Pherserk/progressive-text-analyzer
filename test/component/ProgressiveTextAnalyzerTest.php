@@ -10,32 +10,25 @@ use Prophecy\Argument;
 
 class ProgressiveTextAnalyzerTest extends TestCase
 {
-
-    /**
-     * @dataProvider provideLanguageAndTextAndResults
-     */
-    public function testGetSignAnalysis(string $text) 
+    public function testGetSignAnalysis() 
     {
+	$text = 'This is a test.';
+        $minimumClassifications = 10;       
+	$expectation = [];
+
         $signProvider = $this->prophesize(SignProviderInterface::class);
 
         $language = $this->prophesize(LanguageInterface::class);
         $language = $language->reveal();
 
-        $signProvider->search(Argument::any(), $language, 10)
-            ->willReturn([]);
+        $signProvider->search(Argument::any(), $language, $minimumClassifications)
+            ->willReturn($expectation);
 
-        $analyzer = new ProgressiveTextAnalyzer($signProvider->reveal(), 10);
+        $analyzer = new ProgressiveTextAnalyzer($signProvider->reveal(), $minimumClassifications);
 
-        $results = $analyzer->getSignAnalysis($text, $language);        
-    }
-
-    public function provideLanguageAndTextAndResults()
-    {    
-        return [
-            [
-                'This is a test',
-            ],
-        ];
+        $results = $analyzer->getSignAnalysis($text, $language);
+	
+	static::assertSame($expectation, $results);
     }
 }
 

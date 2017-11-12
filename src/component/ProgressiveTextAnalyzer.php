@@ -4,7 +4,9 @@ namespace Pherserk\ProgressiveTextAnalyzer\component;
 
 use Pherserk\Language\model\LanguageInterface;
 use Pherserk\SignExtractor\component\SignExtractor;
+use Pherserk\SignExtractor\model\UnclassifiedSign;
 use Pherserk\SignProvider\component\SignProviderInterface;
+use Pherserk\SignProvider\model\ClassifiedSign;
 
 class ProgressiveTextAnalyzer
 {
@@ -17,9 +19,17 @@ class ProgressiveTextAnalyzer
         $this->minimumClassifications = $minimumClassifications;
     }
 
-    public function getSignAnalysis(string $text, LanguageInterface $language)
+    /**
+     *
+     * @return ClassifiedSign[]|UnclassifiedSign[]
+     */
+    public function getSignAnalysis(string $text, LanguageInterface $language): array
     {
-        $signs = SignExtractor::extract($text, true);
-	$this->signProvider->search($signs, $language, $this->minimumClassifications);
+	return $this->signProvider
+            ->search(
+                SignExtractor::extract($text, true),
+                $language, 
+                $this->minimumClassifications
+            );
     }
 }
