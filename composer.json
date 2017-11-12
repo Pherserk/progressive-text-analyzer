@@ -3,7 +3,9 @@
     "minimum-stability": "dev",
     "require": {
         "php": ">=7.0",
-        "pherserk/sign-extractor": "dev-master"
+	"pherserk/language": "dev-master",
+        "pherserk/sign-extractor": "dev-master",
+	"pherserk/sign-provider": "dev-master"
     },
     "require-dev": {
         "ext-xml": "*",

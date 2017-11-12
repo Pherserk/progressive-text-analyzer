@@ -2,13 +2,24 @@
 
 namespace Pherserk\ProgressiveTextAnalyzer\component;
 
+use Pherserk\Language\model\LanguageInterface;
 use Pherserk\SignExtractor\component\SignExtractor;
+use Pherserk\SignProvider\component\SignProviderInterface;
 
 class ProgressiveTextAnalyzer
 {
-    public function getSignAnalysis(string $text)
+    private $signProvider;
+
+    private $minimumClassifications;
+
+    public function __construct(SignProviderInterface $signProvider, int $minimumClassifications) {
+        $this->signProvider = $signProvider;
+        $this->minimumClassifications = $minimumClassifications;
+    }
+
+    public function getSignAnalysis(string $text, LanguageInterface $language)
     {
         $signs = SignExtractor::extract($text, true);
-	var_dump($signs);        
+	$this->signProvider->search($signs, $language, $this->minimumClassifications);
     }
 }
