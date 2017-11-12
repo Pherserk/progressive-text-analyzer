@@ -17,7 +17,6 @@ class ProgressiveTextAnalyzerTest extends TestCase
     public function testGetSignAnalysis(string $languageCode, string $languageName, string $languageNativeName, string $text, array $results)
     {
 	$signProvider = $this->prophesize(SingProviderInterface::class);
-        var_dump(SignProviderInterface::class);
 	
         $analyzer = new ProgressiveTextAnalyzer($signProvider->reveal());
 
