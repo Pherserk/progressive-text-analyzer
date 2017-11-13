@@ -20,16 +20,34 @@ class ProgressiveTextAnalyzer
     }
 
     /**
+     * @param string $test
+     * @param LanguageInterface $language
      *
      * @return ClassifiedSign[]|UnclassifiedSign[]
      */
     public function getSignAnalysis(string $text, LanguageInterface $language): array
     {
-	return $this->signProvider
+        $unclassifiedSigns = SignExtractor::extract($text, true);
+
+	$classifiedSigns = $this->signProvider
             ->search(
-                SignExtractor::extract($text, true),
+                $unclassifiedSigns,
                 $language, 
                 $this->minimumClassifications
             );
+        
+        // fixme this can easly go (o)ln(n)
+        $signs = [];
+        foreach ($unclassifiedSigns as $unclassifiedSign) {
+            $sign = $unclassifiedSign;
+            foreach ($classifiedSigns as $classifiedSign) {
+                if ($unclassifiedSign->getSign() === $classifiedSign->getSign()) {
+        	    $sign = $classifiedSign;
+         	}
+	    }
+            $signs[] = $sign;
+        }
+        
+        return $signs;
     }
 }

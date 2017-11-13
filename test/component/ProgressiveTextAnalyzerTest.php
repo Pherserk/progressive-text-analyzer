@@ -4,7 +4,9 @@ namespace Pherserk\ProgressiveTextAnalyzer\test\component;
 
 use Pherserk\Language\model\LanguageInterface;
 use Pherserk\ProgressiveTextAnalyzer\component\ProgressiveTextAnalyzer;
+use Pherserk\SignExtractor\model\UnclassifiedSign;
 use Pherserk\SignProvider\component\SignProviderInterface;
+use Pherserk\SignProvider\model\ClassifiedSign;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 
@@ -14,7 +16,17 @@ class ProgressiveTextAnalyzerTest extends TestCase
     {
 	$text = 'This is a test.';
         $minimumClassifications = 10;       
-	$expectation = [];
+	$expectation = [
+           new ClassifiedSign('T', ClassifiedSign::LETTER_TYPE),
+           new UnclassifiedSign('h'),
+           new UnclassifiedSign('i'),
+           new UnclassifiedSign('s'),
+           new UnclassifiedSign(' '),
+           new UnclassifiedSign('a'),
+           new UnclassifiedSign('t'),
+           new UnclassifiedSign('e'),
+           new ClassifiedSign('.', ClassifiedSign::TERMINATION_PUNCTATION_TYPE), 
+        ];
 
         $signProvider = $this->prophesize(SignProviderInterface::class);
 
