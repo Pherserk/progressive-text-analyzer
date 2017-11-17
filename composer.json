@@ -5,7 +5,8 @@
         "php": ">=7.0",
 	"pherserk/language": "dev-master",
         "pherserk/sign-extractor": "dev-master",
-	"pherserk/sign-provider": "dev-master"
+	"pherserk/sign-provider": "dev-master",
+	"pherserk/word-extractor": "dev-master"
     },
     "require-dev": {
         "ext-xml": "*",

@@ -42,5 +42,27 @@ class ProgressiveTextAnalyzerTest extends TestCase
 	
 	static::assertSame($expectation, $results);
     }
-}
 
+    public function testGetWordAnalysis() {
+          $text = 'This is a test';
+          $minimumClassifications = 10;
+          $classifiedSigns = [
+            new ClassifiedSign('T', ClassifiedSign::LETTER_TYPE),
+            new UnclassifiedSign('h'),
+            new UnclassifiedSign('i'),
+            new UnclassifiedSign('s'),
+            new UnclassifiedSign(' '),
+            new UnclassifiedSign('a'),
+            new UnclassifiedSign('t'),
+            new UnclassifiedSign('e'),
+            new ClassifiedSign('.', ClassifiedSign::TERMINATION_PUNCTATION_TYPE),
+         ];
+
+         $language = $this->prophesize(LanguageInterface::class);
+         $language = $language->reveal();
+         
+         $analyzer = new ProgressiveTextAnalyzer($this->prophesize(SignProviderInterface::class)->reveal(), $minimumClassifications);
+         $results = $analyzer->getWordAnalysis($text, $classifiedSigns, $language);
+    }
+}
+ 

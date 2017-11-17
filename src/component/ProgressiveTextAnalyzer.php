@@ -7,6 +7,7 @@ use Pherserk\SignExtractor\component\SignExtractor;
 use Pherserk\SignExtractor\model\UnclassifiedSign;
 use Pherserk\SignProvider\component\SignProviderInterface;
 use Pherserk\SignProvider\model\ClassifiedSign;
+use Pherserk\WordExtractor\component\WordExtractor;
 
 class ProgressiveTextAnalyzer
 {
@@ -36,7 +37,7 @@ class ProgressiveTextAnalyzer
                 $this->minimumClassifications
             );
         
-        // fixme this can easly go (o)ln(n)
+        // fixme this can easly go (o)ln(n) if optimized with a break
         $signs = [];
         foreach ($unclassifiedSigns as $unclassifiedSign) {
             $sign = $unclassifiedSign;
@@ -50,4 +51,20 @@ class ProgressiveTextAnalyzer
         
         return $signs;
     }
+
+    /**
+     * @param string $text
+     * @param ClassifiedSign[] $classifiedSigns
+     * @param LanguageInterface $language
+     *
+     * @return ClassifiedWord[]|UnclassifiedWord[]
+     */
+    
+    public function getWordAnalysis(string $text, array $classifiedSigns, LanguageInterface $language) : array
+    {
+        $unclassifiedWords = WordExtractor::extract($text, $classifiedSigns, true);    
+	
+	var_dump($unclassifiedWords);
+    }
 }
+
