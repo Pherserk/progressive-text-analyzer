@@ -48,13 +48,13 @@ class ProgressiveTextAnalyzerTest extends TestCase
           $minimumClassifications = 10;
           $classifiedSigns = [
             new ClassifiedSign('T', ClassifiedSign::LETTER_TYPE),
-            new UnclassifiedSign('h'),
-            new UnclassifiedSign('i'),
-            new UnclassifiedSign('s'),
-            new UnclassifiedSign(' '),
-            new UnclassifiedSign('a'),
-            new UnclassifiedSign('t'),
-            new UnclassifiedSign('e'),
+            new ClassifiedSign('h', ClassifiedSign::LETTER_TYPE),
+            new ClassifiedSign('i', ClassifiedSign::LETTER_TYPE),
+            new ClassifiedSign('s', ClassifiedSign::LETTER_TYPE),
+            new ClassifiedSign(' ', ClassifiedSign::EMPTY_TYPE),
+            new ClassifiedSign('a', ClassifiedSign::LETTER_TYPE),
+            new ClassifiedSign('t', ClassifiedSign::LETTER_TYPE),
+            new ClassifiedSign('e', ClassifiedSign::LETTER_TYPE),
             new ClassifiedSign('.', ClassifiedSign::TERMINATION_PUNCTATION_TYPE),
          ];
 

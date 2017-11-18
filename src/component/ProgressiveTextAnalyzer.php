@@ -62,8 +62,9 @@ class ProgressiveTextAnalyzer
     
     public function getWordAnalysis(string $text, array $classifiedSigns, LanguageInterface $language) : array
     {
-        $unclassifiedWords = WordExtractor::extract($text, $classifiedSigns, true);    
-	
+        
+	$unclassifiedWords = WordExtractor::extract($text, $classifiedSigns, true);    
+
 	var_dump($unclassifiedWords);
     }
 }
