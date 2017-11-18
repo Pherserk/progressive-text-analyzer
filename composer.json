@@ -1,12 +1,14 @@
 {
     "name": "pherserk/progressive-text-analyzer",
+    "license": "GPL-3.0",
     "minimum-stability": "dev",
     "require": {
         "php": ">=7.0",
 	"pherserk/language": "dev-master",
         "pherserk/sign-extractor": "dev-master",
 	"pherserk/sign-provider": "dev-master",
-	"pherserk/word-extractor": "dev-master"
+	"pherserk/word-extractor": "dev-master",
+        "pherserk/word-provider": "dev-master"
     },
     "require-dev": {
         "ext-xml": "*",
