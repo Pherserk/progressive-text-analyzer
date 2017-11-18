@@ -8,15 +8,19 @@ use Pherserk\SignExtractor\model\UnclassifiedSign;
 use Pherserk\SignProvider\component\SignProviderInterface;
 use Pherserk\SignProvider\model\ClassifiedSign;
 use Pherserk\WordExtractor\component\WordExtractor;
+use Pherserk\WordProvider\component\WordProviderInterface;
 
 class ProgressiveTextAnalyzer
 {
     private $signProvider;
 
+    private $wordProvider;
+
     private $minimumClassifications;
 
-    public function __construct(SignProviderInterface $signProvider, int $minimumClassifications) {
+    public function __construct(SignProviderInterface $signProvider, WordProviderInterface $wordProvider, int $minimumClassifications) {
         $this->signProvider = $signProvider;
+        $this->wordProvidr = $wordProvider;
         $this->minimumClassifications = $minimumClassifications;
     }
 

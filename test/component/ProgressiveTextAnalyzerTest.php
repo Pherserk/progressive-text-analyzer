@@ -7,6 +7,7 @@ use Pherserk\ProgressiveTextAnalyzer\component\ProgressiveTextAnalyzer;
 use Pherserk\SignExtractor\model\UnclassifiedSign;
 use Pherserk\SignProvider\component\SignProviderInterface;
 use Pherserk\SignProvider\model\ClassifiedSign;
+use Pherserk\WordProvider\component\WordProviderInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 
@@ -36,7 +37,7 @@ class ProgressiveTextAnalyzerTest extends TestCase
         $signProvider->search(Argument::any(), $language, $minimumClassifications)
             ->willReturn($expectation);
 
-        $analyzer = new ProgressiveTextAnalyzer($signProvider->reveal(), $minimumClassifications);
+        $analyzer = new ProgressiveTextAnalyzer($signProvider->reveal(), $this->prophesize(WordProviderInterface::class), $minimumClassifications);
 
         $results = $analyzer->getSignAnalysis($text, $language);
 	
@@ -61,7 +62,9 @@ class ProgressiveTextAnalyzerTest extends TestCase
          $language = $this->prophesize(LanguageInterface::class);
          $language = $language->reveal();
          
-         $analyzer = new ProgressiveTextAnalyzer($this->prophesize(SignProviderInterface::class)->reveal(), $minimumClassifications);
+         $wordProvider = $this->prophesize(WordProviderInterface::class);
+
+         $analyzer = new ProgressiveTextAnalyzer($this->prophesize(SignProviderInterface::class)->reveal(), $wordProvider->reveal(), $minimumClassifications);
          $results = $analyzer->getWordAnalysis($text, $classifiedSigns, $language);
     }
 }
