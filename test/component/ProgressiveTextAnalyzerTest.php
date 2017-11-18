@@ -37,7 +37,11 @@ class ProgressiveTextAnalyzerTest extends TestCase
         $signProvider->search(Argument::any(), $language, $minimumClassifications)
             ->willReturn($expectation);
 
-        $analyzer = new ProgressiveTextAnalyzer($signProvider->reveal(), $this->prophesize(WordProviderInterface::class), $minimumClassifications);
+        $analyzer = new ProgressiveTextAnalyzer(
+            $signProvider->reveal(), 
+            $this->prophesize(WordProviderInterface::class)->reveal(), 
+            $minimumClassifications
+        );
 
         $results = $analyzer->getSignAnalysis($text, $language);
 	
@@ -64,7 +68,12 @@ class ProgressiveTextAnalyzerTest extends TestCase
          
          $wordProvider = $this->prophesize(WordProviderInterface::class);
 
-         $analyzer = new ProgressiveTextAnalyzer($this->prophesize(SignProviderInterface::class)->reveal(), $wordProvider->reveal(), $minimumClassifications);
+         $analyzer = new ProgressiveTextAnalyzer(
+             $this->prophesize(SignProviderInterface::class)->reveal(), 
+             $wordProvider->reveal(), 
+             $minimumClassifications
+         );
+
          $results = $analyzer->getWordAnalysis($text, $classifiedSigns, $language);
     }
 }

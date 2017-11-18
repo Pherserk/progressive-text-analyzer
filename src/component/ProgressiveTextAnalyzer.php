@@ -20,7 +20,7 @@ class ProgressiveTextAnalyzer
 
     public function __construct(SignProviderInterface $signProvider, WordProviderInterface $wordProvider, int $minimumClassifications) {
         $this->signProvider = $signProvider;
-        $this->wordProvidr = $wordProvider;
+        $this->wordProvider = $wordProvider;
         $this->minimumClassifications = $minimumClassifications;
     }
 
@@ -68,6 +68,9 @@ class ProgressiveTextAnalyzer
     {
         
 	$unclassifiedWords = WordExtractor::extract($text, $classifiedSigns, true);    
+	
+	$classifiedSigns = $this->wordProvider
+            ->search($unclassifiedWords, $language, $this->minimumClassifications);
 
 	var_dump($unclassifiedWords);
     }
