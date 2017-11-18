@@ -44,7 +44,7 @@ class ProgressiveTextAnalyzerTest extends TestCase
     }
 
     public function testGetWordAnalysis() {
-          $text = 'This is a test';
+          $text = 'This is a test.';
           $minimumClassifications = 10;
           $classifiedSigns = [
             new ClassifiedSign('T', ClassifiedSign::LETTER_TYPE),
