@@ -93,7 +93,7 @@ class ProgressiveTextAnalyzer
     {
          $analyzedSigns = $this->getSignAnalysis($text, $language);
 
-         foreach ($analizedSigns as $analyzedSign) {
+         foreach ($analyzedSigns as $analyzedSign) {
              if ($analyzedSign->getType() === UnclassifiedSign::UNCLASSIFIED_TYPE) {
                  return $analyzedSigns;
              }

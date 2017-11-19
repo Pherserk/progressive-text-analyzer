@@ -106,12 +106,17 @@ class ProgressiveTextAnalyzerTest extends TestCase
 
      public function testGetTextAnalysis()
      {
-	  $signProvider = $this->prophesize(SignProviderInterface::class);
-          $wordProvider = $this->prophesize(WordProviderInterface::class);
+	  $expectation = [];
 
           $language = $this->prophesize(LanguageInterface::class);
           $language->getIso639Alpha2Code()->willReturn('en');
           $language = $language->reveal();
+
+	  $signProvider = $this->prophesize(SignProviderInterface::class);
+          $signProvider->search(Argument::any(), $language, 10)->willReturn([]);
+
+          $wordProvider = $this->prophesize(WordProviderInterface::class);
+	  $wordProvider->search(Argument::any(), $language, 10)->willReturn([]);
 
           $analyzer = new ProgressiveTextAnalyzer(
               $signProvider->reveal(),
