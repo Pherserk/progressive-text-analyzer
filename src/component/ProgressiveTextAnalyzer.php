@@ -88,5 +88,18 @@ class ProgressiveTextAnalyzer
 
         return $words;
     }
+
+    public function getTextAnalysis(string $text, LanguageInterface $language) : array
+    {
+         $analyzedSigns = $this->getSignAnalysis($text, $language);
+
+         foreach ($analizedSigns as $analyzedSign) {
+             if ($analyzedSign->getType() === UnclassifiedSign::UNCLASSIFIED_TYPE) {
+                 return $analyzedSigns;
+             }
+         }
+
+         return $this->getWordAnalysis($text, $analyzedSigns, $language);
+    }
 }
 

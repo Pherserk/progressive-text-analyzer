@@ -103,5 +103,25 @@ class ProgressiveTextAnalyzerTest extends TestCase
 	 
          static::assertEquals($expectation, $results);
      }
+
+     public function testGetTextAnalysis()
+     {
+	  $signProvider = $this->prophesize(SignProviderInterface::class);
+          $wordProvider = $this->prophesize(WordProviderInterface::class);
+
+          $language = $this->prophesize(LanguageInterface::class);
+          $language->getIso639Alpha2Code()->willReturn('en');
+          $language = $language->reveal();
+
+          $analyzer = new ProgressiveTextAnalyzer(
+              $signProvider->reveal(),
+              $wordProvider->reveal(),
+              10
+          );
+
+          $results = $analyzer->getTextAnalysis('This is a test.', $language);
+
+          static::assertEquals($expectation, $results);
+     }
 }
  
