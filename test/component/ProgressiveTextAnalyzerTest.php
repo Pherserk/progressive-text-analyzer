@@ -51,7 +51,11 @@ class ProgressiveTextAnalyzerTest extends TestCase
     }
 
     public function testGetWordAnalysis() {
-	  $expectation = [
+          $language = $this->prophesize(LanguageInterface::class);
+          $language->getIso639Alpha2Code()->willReturn('en');
+          $language = $language->reveal();
+
+          $expectation = [
               new EnglishClassifiedWord('This', $language, EnglishClassifiedWord::PRONOUN_TYPE),
               new UnclassifiedWord('is'),
               new UnclassifiedWord('a'),
@@ -73,13 +77,10 @@ class ProgressiveTextAnalyzerTest extends TestCase
          ];
 
          $classifiedWords = [
-             new UnclassifiedWord('This'),
-             new UnclassifiedWord('test'),
+             new EnglishClassifiedWord('This', $language, EnglishClassifiedWord::PRONOUN_TYPE),
+             new EnglishClassifiedWord('test', $language, EnglishClassifiedWord::NAME_TYPE),
          ];
 
-         $language = $this->prophesize(LanguageInterface::class);
-         $language = $language->reveal();
-         
          $wordProvider = $this->prophesize(WordProviderInterface::class);
 	 $wordProvider->search(
                  Argument::any(),
@@ -94,8 +95,8 @@ class ProgressiveTextAnalyzerTest extends TestCase
          );
 
          $results = $analyzer->getWordAnalysis($text, $classifiedSigns, $language);
-         
-         static::assertEquals($expectation, $result);
+	 
+         static::assertEquals($expectation, $results);
      }
 }
  

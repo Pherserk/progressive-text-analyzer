@@ -41,13 +41,14 @@ class ProgressiveTextAnalyzer
                 $this->minimumClassifications
             );
         
-        // fixme this can easly go (o)ln(n) if optimized with a break
         $signs = [];
         foreach ($unclassifiedSigns as $unclassifiedSign) {
             $sign = $unclassifiedSign;
             foreach ($classifiedSigns as $classifiedSign) {
                 if ($unclassifiedSign->getSign() === $classifiedSign->getSign()) {
         	    $sign = $classifiedSign;
+             
+                    break;
          	}
 	    }
             $signs[] = $sign;
@@ -72,13 +73,14 @@ class ProgressiveTextAnalyzer
 	$classifiedWords = $this->wordProvider
             ->search($unclassifiedWords, $language, $this->minimumClassifications);
 
-        // fixme this can easly go (o)ln(n) if optimized with a break
         $words = [];
         foreach ($unclassifiedWords as $unclassifiedWord) {
             $word = $unclassifiedWord;
             foreach ($classifiedWords as $classifiedWord) {
                 if ($unclassifiedWord->getWord() === $classifiedWord->getWord()) {
                     $word = $classifiedWord;
+
+                    break;
                 }
             }
             $words[] = $word;
