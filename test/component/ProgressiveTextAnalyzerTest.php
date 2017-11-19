@@ -37,7 +37,12 @@ class ProgressiveTextAnalyzerTest extends TestCase
         $language = $language->reveal();
 
         $signProvider->search(Argument::any(), $language, $minimumClassifications)
-            ->willReturn($expectation);
+            ->willReturn(
+                [
+                    new ClassifiedSign('T', ClassifiedSign::LETTER_TYPE),
+                    new ClassifiedSign('.', ClassifiedSign::TERMINATION_PUNCTATION_TYPE),
+                ]
+            );
 
         $analyzer = new ProgressiveTextAnalyzer(
             $signProvider->reveal(), 
@@ -47,7 +52,7 @@ class ProgressiveTextAnalyzerTest extends TestCase
 
         $results = $analyzer->getSignAnalysis($text, $language);
 	
-	static::assertSame($expectation, $results);
+	static::assertEquals($expectation, $results);
     }
 
     public function testGetWordAnalysis() {
