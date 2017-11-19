@@ -9,7 +9,7 @@ use Pherserk\SignProvider\component\SignProviderInterface;
 use Pherserk\SignProvider\model\ClassifiedSign;
 use Pherserk\WordExtractor\model\UnclassifiedWord;
 use Pherserk\WordProvider\component\WordProviderInterface;
-use Pherserk\WordProvider\model\ClassifiedWord;
+use Pherserk\WordProvider\model\en\ClassifiedWord as EnglishClassifiedWord;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 
@@ -52,10 +52,10 @@ class ProgressiveTextAnalyzerTest extends TestCase
 
     public function testGetWordAnalysis() {
 	  $expectation = [
-              new ClassifiedWord('This'),
+              new EnglishClassifiedWord('This', $language, EnglishClassifiedWord::PRONOUN_TYPE),
               new UnclassifiedWord('is'),
               new UnclassifiedWord('a'),
-              new ClassifiedWord('test'),
+              new EnglishClassifiedWord('test', $language, EnglishClassifiedWord::NAME_TYPE),
           ];
 
           $text = 'This is a test.';
