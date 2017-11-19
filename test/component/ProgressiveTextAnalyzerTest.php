@@ -7,7 +7,9 @@ use Pherserk\ProgressiveTextAnalyzer\component\ProgressiveTextAnalyzer;
 use Pherserk\SignExtractor\model\UnclassifiedSign;
 use Pherserk\SignProvider\component\SignProviderInterface;
 use Pherserk\SignProvider\model\ClassifiedSign;
+use Pherserk\WordExtractor\model\UnclassifiedWord;
 use Pherserk\WordProvider\component\WordProviderInterface;
+use Pherserk\WordProvider\model\ClassifiedWord;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 
@@ -49,24 +51,41 @@ class ProgressiveTextAnalyzerTest extends TestCase
     }
 
     public function testGetWordAnalysis() {
+	  $expectation = [
+              new ClassifiedWord('This'),
+              new UnclassifiedWord('is'),
+              new UnclassifiedWord('a'),
+              new ClassifiedWord('test'),
+          ];
+
           $text = 'This is a test.';
           $minimumClassifications = 10;
           $classifiedSigns = [
-            new ClassifiedSign('T', ClassifiedSign::LETTER_TYPE),
-            new ClassifiedSign('h', ClassifiedSign::LETTER_TYPE),
-            new ClassifiedSign('i', ClassifiedSign::LETTER_TYPE),
-            new ClassifiedSign('s', ClassifiedSign::LETTER_TYPE),
-            new ClassifiedSign(' ', ClassifiedSign::EMPTY_TYPE),
-            new ClassifiedSign('a', ClassifiedSign::LETTER_TYPE),
-            new ClassifiedSign('t', ClassifiedSign::LETTER_TYPE),
-            new ClassifiedSign('e', ClassifiedSign::LETTER_TYPE),
-            new ClassifiedSign('.', ClassifiedSign::TERMINATION_PUNCTATION_TYPE),
+              new ClassifiedSign('T', ClassifiedSign::LETTER_TYPE),
+              new ClassifiedSign('h', ClassifiedSign::LETTER_TYPE),
+              new ClassifiedSign('i', ClassifiedSign::LETTER_TYPE),
+              new ClassifiedSign('s', ClassifiedSign::LETTER_TYPE),
+              new ClassifiedSign(' ', ClassifiedSign::EMPTY_TYPE),
+              new ClassifiedSign('a', ClassifiedSign::LETTER_TYPE),
+              new ClassifiedSign('t', ClassifiedSign::LETTER_TYPE),
+              new ClassifiedSign('e', ClassifiedSign::LETTER_TYPE),
+              new ClassifiedSign('.', ClassifiedSign::TERMINATION_PUNCTATION_TYPE),
+         ];
+
+         $classifiedWords = [
+             new UnclassifiedWord('This'),
+             new UnclassifiedWord('test'),
          ];
 
          $language = $this->prophesize(LanguageInterface::class);
          $language = $language->reveal();
          
          $wordProvider = $this->prophesize(WordProviderInterface::class);
+	 $wordProvider->search(
+                 Argument::any(),
+                 $language,
+		 $minimumClassifications
+	     )->willReturn($classifiedWords);
 
          $analyzer = new ProgressiveTextAnalyzer(
              $this->prophesize(SignProviderInterface::class)->reveal(), 
@@ -75,6 +94,8 @@ class ProgressiveTextAnalyzerTest extends TestCase
          );
 
          $results = $analyzer->getWordAnalysis($text, $classifiedSigns, $language);
-    }
+         
+         static::assertEquals($expectation, $result);
+     }
 }
  

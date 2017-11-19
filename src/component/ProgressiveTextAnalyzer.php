@@ -69,10 +69,22 @@ class ProgressiveTextAnalyzer
         
 	$unclassifiedWords = WordExtractor::extract($text, $classifiedSigns, true);    
 	
-	$classifiedSigns = $this->wordProvider
+	$classifiedWords = $this->wordProvider
             ->search($unclassifiedWords, $language, $this->minimumClassifications);
 
-	var_dump($unclassifiedWords);
+        // fixme this can easly go (o)ln(n) if optimized with a break
+        $words = [];
+        foreach ($unclassifiedWords as $unclassifiedWord) {
+            $word = $unclassifiedWord;
+            foreach ($classifiedWords as $classifiedWord) {
+                if ($unclassifiedWord->getWord() === $classifiedWord->getWord()) {
+                    $word = $classifiedWord;
+                }
+            }
+            $words[] = $word;
+        }
+
+        return $words;
     }
 }
 
