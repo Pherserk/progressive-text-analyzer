@@ -106,7 +106,17 @@ class ProgressiveTextAnalyzerTest extends TestCase
 
      public function testGetTextAnalysis()
      {
-	  $expectation = [];
+	  $expectation = [
+              new UnclassifiedSign('T'),
+              new UnclassifiedSign('h'),
+              new UnclassifiedSign('i'),
+              new UnclassifiedSign('s'),
+              new UnclassifiedSign(' '),
+              new UnclassifiedSign('a'),
+              new UnclassifiedSign('t'),
+              new UnclassifiedSign('e'),
+              new UnclassifiedSign('.'),
+          ];
 
           $language = $this->prophesize(LanguageInterface::class);
           $language->getIso639Alpha2Code()->willReturn('en');
