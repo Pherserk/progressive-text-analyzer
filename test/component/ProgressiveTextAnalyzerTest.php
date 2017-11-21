@@ -107,7 +107,7 @@ class ProgressiveTextAnalyzerTest extends TestCase
      public function testGetTextAnalysis()
      {
 	  $expectation = [
-              new UnclassifiedSign('T'),
+              new ClassifiedSign('T', ClassifiedSign::LETTER_TYPE),
               new UnclassifiedSign('h'),
               new UnclassifiedSign('i'),
               new UnclassifiedSign('s'),
@@ -123,7 +123,11 @@ class ProgressiveTextAnalyzerTest extends TestCase
           $language = $language->reveal();
 
 	  $signProvider = $this->prophesize(SignProviderInterface::class);
-          $signProvider->search(Argument::any(), $language, 10)->willReturn([]);
+          $signProvider->search(Argument::any(), $language, 10)->willReturn(
+	      [
+                  new ClassifiedSign('T', ClassifiedSign::LETTER_TYPE), 
+              ]
+          );
 
           $wordProvider = $this->prophesize(WordProviderInterface::class);
 	  $wordProvider->search(Argument::any(), $language, 10)->willReturn([]);
